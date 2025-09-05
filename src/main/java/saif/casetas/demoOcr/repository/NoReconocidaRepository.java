@@ -1,11 +1,24 @@
 package saif.casetas.demoOcr.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import saif.casetas.demoOcr.entity.NoReconocidaEntity;
-
 @Repository
-public interface NoReconocidaRepository extends JpaRepository<NoReconocidaEntity, Long>{
+public class NoReconocidaRepository{
+	private JdbcTemplate jdbcTemplate;
+
+    public void MyRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+	public NoReconocidaRepository(JdbcTemplate jdbcTemplate) {
+	    this.jdbcTemplate = jdbcTemplate;
+	}
 	
+	public List<String> getNames() {
+        String sql = "SELECT * FROM c##cacetas.autobus";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("name"));
+    }
 }

@@ -12,18 +12,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import saif.casetas.demoOcr.entity.NoReconocidaEntity;
+import saif.casetas.demoOcr.repository.NoReconocidaRepository;
 import saif.casetas.demoOcr.services.NoReconocida.NoReconocidaService;
-import saif.casetas.demoOcr.services.NoReconocida.NoReconocidaServiceImpl;
 
 @RestController
 @RequestMapping("/")
 public class PeticionesController {
+	// endpoint jdbc
+
+	private final NoReconocidaRepository myRepository;
 	
-	@Autowired
+	public PeticionesController(NoReconocidaRepository myRepository) {
+	    this.myRepository = myRepository;
+	}
+	
+	@GetMapping("/names")
+	public ResponseEntity<List<String>> fetchNames() {
+	    return ResponseEntity.ok(myRepository.getNames());
+	}
+	
+	/*@Autowired
 	NoReconocidaService noReconocidaService;
 	
 	@PostMapping("/ingresarNoReconocidas")
 	public ResponseEntity<?> ingresarNoReconocida(@RequestBody NoReconocidaEntity noReconocidaEntity){
+		System.out.println("Recibí: " + noReconocidaEntity);
 		NoReconocidaEntity nuevaNoReconocida = noReconocidaService.guardar(noReconocidaEntity);
 		return ResponseEntity.status(HttpStatus.CREATED).body(nuevaNoReconocida);
 	}
@@ -32,5 +45,8 @@ public class PeticionesController {
 	public ResponseEntity<List<NoReconocidaEntity>> traerNoReconocida(){
 		List<NoReconocidaEntity> lista = noReconocidaService.listar();
 		return ResponseEntity.ok(lista);
-	}
+	}*/
+	
+	
+ 
 }
