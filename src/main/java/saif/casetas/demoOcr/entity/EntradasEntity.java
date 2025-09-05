@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 import java.sql.Blob;
 import java.sql.Date;
 
-@Entity(name = "registro_entradas")
+/*@Entity(name = "registro_entradas")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "registro_entradas",schema = "c##casetas")
+@Table(name = "registro_entradas",schema = "c##casetas")*/
 public class EntradasEntity {
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cve_entrada")
     private int cve_entrada;
@@ -33,5 +33,5 @@ public class EntradasEntity {
 
     @Lob
     @Column(name="imagen64")
-    private byte[] imagen64;
+    private byte[] imagen64;*/
 }

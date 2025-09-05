@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public class EntradasComponentRepository {
 
-        private JdbcTemplate jdbcTemplate;
+        /*private JdbcTemplate jdbcTemplate;
 
         public void MyRepository(JdbcTemplate jdbcTemplate) {
             this.jdbcTemplate = jdbcTemplate;
@@ -22,7 +22,7 @@ public class EntradasComponentRepository {
     public List<String> getNames() {
             String sql = "SELECT * FROM casetas.autobus";
             return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("name"));
-        }
+        }*/
 
 
 

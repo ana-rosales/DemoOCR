@@ -10,8 +10,8 @@ import saif.casetas.demoOcr.repository.EntradasRepository;
 import java.util.List;
 
 @Service
-public class EntradasServiceImpl implements EntradasService {
-    @Autowired
+public class EntradasServiceImpl /*implements EntradasService*/ {
+    /*@Autowired
     EntradasRepository entradasRepository;
 
     @Override
@@ -20,5 +20,5 @@ public class EntradasServiceImpl implements EntradasService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<EntradasEntity> findAll(){return  entradasRepository.findAll();}
+    public List<EntradasEntity> findAll(){return  entradasRepository.findAll();}*/
 }

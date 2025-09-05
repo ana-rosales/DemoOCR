@@ -21,7 +21,7 @@ import saif.casetas.demoOcr.services.NoReconocida.NoReconocidaService;
 @RequestMapping("/")
 public class PeticionesController {
 	
-	@Autowired
+	/*@Autowired
 	NoReconocidaService noReconocidaService;
 	@Autowired
     EntradasService entradasService;//private o sin Impl
@@ -55,7 +55,7 @@ public class PeticionesController {
     /*private final EntradasComponentRepository myRepository;
 
     public PeticionesController(EntradasComponentRepository myRepository) {
-        this.myRepository = myRepository;
+        this.myReposistory = myRepository;
     }
 
     @GetMapping("/names")

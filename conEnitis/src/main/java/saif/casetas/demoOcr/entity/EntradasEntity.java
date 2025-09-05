@@ -14,7 +14,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "registro_entradas",schema = "c##casetas")
+@Table(name = "registro_entradas",schema = "casetas")
 public class EntradasEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,8 +10,8 @@ import saif.casetas.demoOcr.entity.NoReconocidaEntity;
 import saif.casetas.demoOcr.repository.NoReconocidaRepository;
 
 @Service
-public class NoReconocidaServiceImpl implements NoReconocidaService{
-	@Autowired
+public class NoReconocidaServiceImpl /*implements NoReconocidaService*/{
+	/*@Autowired
 	NoReconocidaRepository noReconocidaRepository;
 
 	@Override
@@ -24,7 +24,7 @@ public class NoReconocidaServiceImpl implements NoReconocidaService{
 	@Transactional
 	public List<NoReconocidaEntity> listar() {
 		return noReconocidaRepository.findAll();
-	}
+	}*/
 	
 	
 }

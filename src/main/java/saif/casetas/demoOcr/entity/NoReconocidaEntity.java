@@ -16,17 +16,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "REGISTRO_ENTRADAS_NO_RECONOCIDAS")
+/*@Entity(name = "REGISTRO_ENTRADAS_NO_RECONOCIDAS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "REGISTRO_ENTRADAS_NO_RECONOCIDAS", schema="c##casetas")
+@Table(name = "REGISTRO_ENTRADAS_NO_RECONOCIDAS", schema="c##casetas")*/
 public class NoReconocidaEntity {
-	@Id
+	/*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	/*@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mi_seq")
-	@SequenceGenerator(name = "mi_seq", sequenceName = "MI_SECUENCIA", allocationSize = 1)*/
+	@SequenceGenerator(name = "mi_seq", sequenceName = "MI_SECUENCIA", allocationSize = 1)
     @Column(name = "CVE_ENTRADA_NO_RECONOCIDA")
     private int cve_entrada;
 
@@ -35,6 +35,6 @@ public class NoReconocidaEntity {
 
     @Lob
     @Column(name="IMAGEN64", nullable= false)
-    private byte[] imagen64;
+    private byte[] imagen64;*/
 }
 
