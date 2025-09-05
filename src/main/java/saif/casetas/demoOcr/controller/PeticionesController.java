@@ -11,42 +11,55 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import saif.casetas.demoOcr.entity.EntradasEntity;
 import saif.casetas.demoOcr.entity.NoReconocidaEntity;
-import saif.casetas.demoOcr.repository.NoReconocidaRepository;
+import saif.casetas.demoOcr.repository.EntradasComponentRepository;
+import saif.casetas.demoOcr.services.Entradas.EntradasService;
 import saif.casetas.demoOcr.services.NoReconocida.NoReconocidaService;
 
 @RestController
 @RequestMapping("/")
 public class PeticionesController {
-	// endpoint jdbc
-
-	private final NoReconocidaRepository myRepository;
 	
-	public PeticionesController(NoReconocidaRepository myRepository) {
-	    this.myRepository = myRepository;
-	}
-	
-	@GetMapping("/names")
-	public ResponseEntity<List<String>> fetchNames() {
-	    return ResponseEntity.ok(myRepository.getNames());
-	}
-	
-	/*@Autowired
+	@Autowired
 	NoReconocidaService noReconocidaService;
+	@Autowired
+    EntradasService entradasService;//private o sin Impl
 	
-	@PostMapping("/ingresarNoReconocidas")
-	public ResponseEntity<?> ingresarNoReconocida(@RequestBody NoReconocidaEntity noReconocidaEntity){
+	@PostMapping("/no-reconocidas-insert")
+	public ResponseEntity<?> noReconocidas(@RequestBody NoReconocidaEntity noReconocidaEntity){
 		System.out.println("Recibí: " + noReconocidaEntity);
 		NoReconocidaEntity nuevaNoReconocida = noReconocidaService.guardar(noReconocidaEntity);
 		return ResponseEntity.status(HttpStatus.CREATED).body(nuevaNoReconocida);
 	}
 	
-	@GetMapping("/verNoReconocida")
+	@GetMapping("/no-reconocidas")
 	public ResponseEntity<List<NoReconocidaEntity>> traerNoReconocida(){
 		List<NoReconocidaEntity> lista = noReconocidaService.listar();
 		return ResponseEntity.ok(lista);
-	}*/
+	}
 	
-	
- 
+    @PostMapping("entradas-correctas-insert")
+    public ResponseEntity<?> Entradas(@RequestBody EntradasEntity entradasEntity) {
+        EntradasEntity entradas = entradasService.save(entradasEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(entradas);
+    }
+
+    @GetMapping("entradas-correctas")
+    public ResponseEntity<List<EntradasEntity>> traerEntradas(){
+        List<EntradasEntity> lista=entradasService.findAll();
+        //model.addAttribute("lista",lista);
+        return ResponseEntity.ok(lista);
+    }
+
+    /*private final EntradasComponentRepository myRepository;
+
+    public PeticionesController(EntradasComponentRepository myRepository) {
+        this.myRepository = myRepository;
+    }
+
+    @GetMapping("/names")
+    public ResponseEntity<List<String>> fetchNames() {
+        return ResponseEntity.ok(myRepository.getNames());
+    }*/
 }
