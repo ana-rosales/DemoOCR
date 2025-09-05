@@ -17,13 +17,13 @@ public class NoReconocidaServiceImpl implements NoReconocidaService{
 	
 	@Override
 	@Transactional
-	public NoReconocidaEntity save(NoReconocidaEntity noReconocidaEntity) {
+	public NoReconocidaEntity guardar(NoReconocidaEntity noReconocidaEntity) {
 		return noReconocidaRepository.save(noReconocidaEntity);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<NoReconocidaEntity> findAll(){
+	public List<NoReconocidaEntity> listar(){
 		return noReconocidaRepository.findAll();
 	}
 	

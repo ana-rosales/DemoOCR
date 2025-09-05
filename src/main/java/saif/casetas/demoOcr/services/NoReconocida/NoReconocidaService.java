@@ -6,7 +6,7 @@ import saif.casetas.demoOcr.entity.NoReconocidaEntity;
 
 public interface NoReconocidaService {
 	
-	NoReconocidaEntity save(NoReconocidaEntity noReconocida);
+	NoReconocidaEntity guardar(NoReconocidaEntity noReconocida);
 	
-	List<NoReconocidaEntity> findAll();
+	List<NoReconocidaEntity> listar();
 }

@@ -7,12 +7,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "registro_entradas_no_reconocidas")
+@Entity(name = "REGISTRO_ENTRADAS_NO_RECONOCIDAS")
+@Table(name = "REGISTRO_ENTRADAS_NO_RECONOCIDAS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class NoReconocidaEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CVE_ENTRADA_NO_RECONOCIDA	")
+    @Column(name = "CVE_ENTRADA_NO_RECONOCIDA")
     private int cve_entrada;
 
     @Column(name="FECHA_HORA")
