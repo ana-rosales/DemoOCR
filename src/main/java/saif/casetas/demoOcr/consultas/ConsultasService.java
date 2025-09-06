@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import saif.casetas.demoOcr.classes.Autobus;
 import saif.casetas.demoOcr.classes.NoReconocidas;
+import saif.casetas.demoOcr.classes.Entradas;
+import saif.casetas.demoOcr.classes.EntradasImg;
 import saif.casetas.demoOcr.classes.dto.BusEntradaTipoME_DTO;
+import saif.casetas.demoOcr.classes.dto.CambioNoReconocidas_DTO;
 import saif.casetas.demoOcr.classes.dto.NoReconocidas_DTO;
 
 @Service
@@ -24,7 +27,7 @@ public class ConsultasService {
 	}
 	
 	public List<Autobus> consultaPruebaAutobuses(){
-		String sql = "SELECT * FROM C##CASETAS.AUTOBUS;";
+		String sql = "SELECT * FROM " + esquema_casetas + ".AUTOBUS;";
 		List<Autobus> resultados = jdbcTemplate.query(sql,
                 (rs, rowNum) -> {
                 	Autobus bus = new Autobus();
@@ -37,6 +40,26 @@ public class ConsultasService {
 			resultados.add(bus);
 		}
 		return resultados;
+	}
+	public /*List<EntradasImg>*/ EntradasImg consultaPruebaImagen(int x){
+		String sql = "SELECT IMAGEN64 FROM " + esquema_casetas + ".registro_entradas where CVE_ENTRADA= ? ";
+		List<EntradasImg> resultados = jdbcTemplate.query(sql,
+				(rs, rowNum) -> {
+					EntradasImg bus = new EntradasImg();
+					bus.setImagen64(rs.getBytes("imagen64"));
+					return bus;
+				},x);
+		return resultados.get(0);
+	}
+	public /*List<EntradasImg>*/ EntradasImg consultaPruebaNoRecImagen(int x){
+		String sql = "SELECT IMAGEN64 FROM " + esquema_casetas + ".registro_entradas_no_reconocidas where CVE_ENTRADA_NO_RECONOCIDA= ? ";
+		List<EntradasImg> resultados = jdbcTemplate.query(sql,
+				(rs, rowNum) -> {
+					EntradasImg bus = new EntradasImg();
+					bus.setImagen64(rs.getBytes("imagen64"));
+					return bus;
+				},x);
+		return resultados.get(0);
 	}
 	
 	public List<BusEntradaTipoME_DTO> consultaBusesCapturasExitosas_BD(){
@@ -53,10 +76,10 @@ public class ConsultasService {
 				+ "NVL(M.ME_NAME,'N/A') AS MARCA_ECONOMICA, "
 				+ "T.DESCRIPCION AS TIPO_VEHICULO "
 				
-				+ "FROM C##CASETAS.REGISTRO_ENTRADAS E "
-				+ "LEFT JOIN C##CASETAS.AUTOBUS A ON A.CVE_AUTOBUS = E.CVE_AUTOBUS "
-				+ "LEFT JOIN C##CASETAS.MARCA_ECONOMICA M ON A.CVE_ME = M.CVE_ME "
-				+ "INNER JOIN C##CASETAS.TIPO_VEHICULO T ON T.CVE_VEHICULO = T.CVE_VEHICULO "
+				+ "FROM " + esquema_casetas + ".REGISTRO_ENTRADAS E "
+				+ "LEFT JOIN " + esquema_casetas + ".AUTOBUS A ON A.CVE_AUTOBUS = E.CVE_AUTOBUS "
+				+ "LEFT JOIN " + esquema_casetas + ".MARCA_ECONOMICA M ON A.CVE_ME = M.CVE_ME "
+				+ "INNER JOIN " + esquema_casetas + ".TIPO_VEHICULO T ON T.CVE_VEHICULO = T.CVE_VEHICULO "
 				
 				+ "ORDER BY E.FECHA_HORA DESC";
 		List<BusEntradaTipoME_DTO> resultados = jdbcTemplate.query(sql,
@@ -84,13 +107,13 @@ public class ConsultasService {
 	
 	public List<NoReconocidas_DTO> consultaCapturasNoReconocidas_BD(){
 		String sql = "SELECT CVE_ENTRADA_NO_RECONOCIDA, "
-				+ "TO_CHAR(E.FECHA_HORA, 'YYYY-MM-DD HH24:MI:SS') AS HORA_ENTRADA, "
+				+ "TO_CHAR(FECHA_HORA, 'YYYY-MM-DD HH24:MI:SS') AS HORA_ENTRADA, "
 				+ "VERIFICADO, "
 				+ "PLACA_DETECTADA, "
 				+ "NUMERO_ECONOMICO_DETECTADO, "
 				+ "MARCA_ECONOMICA_DETECTADA, "
 				+ "TIPO_DE_DETECCION "
-				+ "FROM C##CASETAS.REGISTRO_ENTRADAS_NO_RECONOCIDAS ";
+				+ "FROM " + esquema_casetas + ".REGISTRO_ENTRADAS_NO_RECONOCIDAS ";
 		List<NoReconocidas_DTO> resultados = jdbcTemplate.query(sql,
 				(rs, rowNum) -> {
 					NoReconocidas_DTO captura = new NoReconocidas_DTO();
@@ -112,17 +135,68 @@ public class ConsultasService {
 	
 	/**
 	 * Insertar no reconocida a reconocida.
+	 * Tipo deteccion siempre es 3
 	 * @param cve_
 	 * @return
 	 */
-	public Boolean insertarCapturaReconocida_BD(int cve_no_reconocida) {
-		String consulta = "SELECT * FROM C##CASETAS.REGISTRO_ENTRADAS_NO_RECONOCIDAS ";
+	/*public Boolean cambiarDeTabla_BD (
+			int cve_no_reconocida, int cve_vehiculo, 
+			String placa, String numero_economico, String marca_economica) {
 		
-		jdbcTemplate.query(null, null)
-		String sql = "INSERT INTO C##CASETAS."
+		String con = ""
+		
+		// consulta
+		String consulta = "SELECT TO_CHAR(E.FECHA_HORA, 'YYYY-MM-DD HH24:MI:SS') AS HORA_ENTRADA "
+				+ "FROM " + esquema_casetas + ".REGISTRO_ENTRADAS_NO_RECONOCIDAS "
+				+ "WHERE CVE_ENTRADA_NO_RECONOCIDA = ? "
+				+ "AND PLACA_DETECTADA = ? "
+				+ "AND NUMERO_ECONOMICO_DETECTADO = ? "
+				+ "AND MARCA_ECONOMICA_DETECTADA = ? ";
+		
+		List<CambioNoReconocidas_DTO> resultados = jdbcTemplate.query(consulta,
+				(rs, rowNum) -> {
+					CambioNoReconocidas_DTO captura = new CambioNoReconocidas_DTO();
+					captura.setFecha_hora(rs.getString("HORA_ENTRADA"));
+					return captura;
+				},cve_no_reconocida);
+		
+		CambioNoReconocidas_DTO noReconocida = resultados.get(0);
+		noReconocida.setImagen64(consultaPruebaNoRecImagen(cve_no_reconocida).getImagen64());
+		
+		
+		String sql = "INSERT INTO C##CASETAS.REGISTRO_ENTRADAS (FECHA_HORA, IMAGEN64) " +
+                "VALUES (SYSDATE, ?, ?)";
+		int filasAfectadas = jdbcTemplate.update(sql, noReconocida.getFecha_hora(),);
+		
+	}*/
+	
+	public Boolean insertarRegistroEntrada_BD(
+			int cve_entrada, int cve_vehiculo,
+			String placa, String numero_economico, String marca) {
+	    String sql = "INSERT INTO " + esquema_casetas + ".REGISTRO_ENTRADAS " +
+	            "(FECHA_HORA, IMAGEN64, CVE_VEHICULO, CVE_AUTOBUS, PLACA_DETECTADA, NUMERO_ECONOMICO_DETECTADO, MARCA_ECONOMICA_DETECTADA, TIPO_DE_DETECCION) " +
+	            "SELECT n.FECHA_HORA, n.IMAGEN64, ?, ?, ?, ?, ?, ? " +
+	            "FROM " + esquema_casetas + ".REGISTRO_ENTRADAS_NO_RECONOCIDAS n " +
+	            "WHERE n.CVE_ENTRADA_NO_RECONOCIDA = ? ";
+
+	    System.out.println("cve_vehiculo: " + cve_vehiculo);
+	    System.out.println("cve_entrada: " + cve_entrada);
+	    System.out.println("placa: " + placa);
+	    System.out.println("numero_economico: " + numero_economico);
+	    System.out.println("marca: " + marca);
+	    
+	    int filasAfectadas = jdbcTemplate.update(sql,
+	    		cve_vehiculo,
+	    		0,
+	            placa,
+	            numero_economico,
+	            marca,
+	            3,
+	            cve_entrada
+	    );
+	    
+	    return filasAfectadas > 0;
 	}
-	
-	
 	
 	
 }
