@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import saif.casetas.demoOcr.classes.Autobus;
 import saif.casetas.demoOcr.classes.dto.BusEntradaTipoME_DTO;
+import saif.casetas.demoOcr.classes.dto.NoReconocidas_DTO;
 import saif.casetas.demoOcr.consultas.ConsultasService;
 
 @RestController
@@ -34,6 +35,12 @@ public class Service_App_OCR {
 	public ResponseEntity<List<BusEntradaTipoME_DTO>> consultaBusesCapturasExitosas_CTLR(){
 		List<BusEntradaTipoME_DTO> infoBuses = consultasService.consultaBusesCapturasExitosas_BD();
 		return ResponseEntity.status(HttpStatus.OK).body(infoBuses);		
+	}
+	
+	@GetMapping("no-reconocidas")
+	public ResponseEntity<List<NoReconocidas_DTO>> consultaCapturasNoReconocidas_CTLR(){
+		List<NoReconocidas_DTO> infoCaptura = consultasService.consultaCapturasNoReconocidas_BD();
+		return ResponseEntity.status(HttpStatus.OK).body(infoCaptura);	
 	}
 	
 }

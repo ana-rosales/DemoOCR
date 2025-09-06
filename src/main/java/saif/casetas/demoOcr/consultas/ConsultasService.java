@@ -2,14 +2,20 @@ package saif.casetas.demoOcr.consultas;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import saif.casetas.demoOcr.classes.Autobus;
+import saif.casetas.demoOcr.classes.NoReconocidas;
 import saif.casetas.demoOcr.classes.dto.BusEntradaTipoME_DTO;
+import saif.casetas.demoOcr.classes.dto.NoReconocidas_DTO;
 
 @Service
 public class ConsultasService {
+	
+	@Value("${com.saif.esquema.db}")
+    private String esquema_casetas;
 	
 	private final JdbcTemplate jdbcTemplate;
 
@@ -26,6 +32,10 @@ public class ConsultasService {
                     bus.setMatricula(rs.getString("MATRICULA"));
                     return bus;
                 });
+		if (resultados.isEmpty()) {
+			Autobus bus = new Autobus();
+			resultados.add(bus);
+		}
 		return resultados;
 	}
 	
@@ -65,11 +75,63 @@ public class ConsultasService {
                 	bus.setTipo_vehiculo(rs.getString("TIPO_VEHICULO"));
                     return bus;
                 });
+		if (resultados.isEmpty()) {
+			BusEntradaTipoME_DTO bus = new BusEntradaTipoME_DTO();
+			resultados.add(bus);
+		}
 		return resultados;
+	}
+	
+	public List<NoReconocidas_DTO> consultaCapturasNoReconocidas_BD(){
+		String sql = "SELECT CVE_ENTRADA_NO_RECONOCIDA, "
+				+ "TO_CHAR(E.FECHA_HORA, 'YYYY-MM-DD HH24:MI:SS') AS HORA_ENTRADA, "
+				+ "VERIFICADO, "
+				+ "PLACA_DETECTADA, "
+				+ "NUMERO_ECONOMICO_DETECTADO, "
+				+ "MARCA_ECONOMICA_DETECTADA, "
+				+ "TIPO_DE_DETECCION "
+				+ "FROM C##CASETAS.REGISTRO_ENTRADAS_NO_RECONOCIDAS ";
+		List<NoReconocidas_DTO> resultados = jdbcTemplate.query(sql,
+				(rs, rowNum) -> {
+					NoReconocidas_DTO captura = new NoReconocidas_DTO();
+					captura.setCve_entradas_no_reconocidas(rs.getInt("CVE_ENTRADA_NO_RECONOCIDA"));
+					captura.setHora_fecha(rs.getString("HORA_ENTRADA"));
+					captura.setVerificado(rs.getInt("VERIFICADO"));
+					captura.setPlaca_detectada(rs.getString("PLACA_DETECTADA"));
+					captura.setNumero_economico_detectado(rs.getString("NUMERO_ECONOMICO_DETECTADO"));
+					captura.setMarca_economica_detectada(rs.getString("MARCA_ECONOMICA_DETECTADA"));
+					captura.setTipo_de_deteccion(rs.getInt("TIPO_DE_DETECCION"));
+					return captura;
+				});
+		if (resultados.isEmpty()) {
+			NoReconocidas_DTO bus = new NoReconocidas_DTO();
+			resultados.add(bus);
+		}
+		return resultados;
+	}
+	
+	/**
+	 * Insertar no reconocida a reconocida.
+	 * @param cve_
+	 * @return
+	 */
+	public Boolean insertarCapturaReconocida_BD(int cve_no_reconocida) {
+		String consulta = "SELECT * FROM C##CASETAS.REGISTRO_ENTRADAS_NO_RECONOCIDAS ";
+		
+		jdbcTemplate.query(null, null)
+		String sql = "INSERT INTO C##CASETAS."
 	}
 	
 	
 	
 	
-	
 }
+
+
+
+
+
+
+
+
+
