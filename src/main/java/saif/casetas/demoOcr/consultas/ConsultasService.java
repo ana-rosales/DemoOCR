@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import saif.casetas.demoOcr.classes.Autobus;
+import saif.casetas.demoOcr.classes.Entradas;
+import saif.casetas.demoOcr.classes.EntradasImg;
 import saif.casetas.demoOcr.classes.dto.BusEntradaTipoME_DTO;
 
 @Service
@@ -26,6 +28,26 @@ public class ConsultasService {
                     bus.setMatricula(rs.getString("MATRICULA"));
                     return bus;
                 });
+		return resultados;
+	}
+	public List<EntradasImg> consultaPruebaImagen(int x){
+		String sql = "SELECT IMAGEN64 FROM CASETAS.registro_entradas where CVE_ENTRADA= ? ";
+		List<EntradasImg> resultados = jdbcTemplate.query(sql,
+				(rs, rowNum) -> {
+					EntradasImg bus = new EntradasImg();
+					bus.setImagen64(rs.getBytes("imagen64"));
+					return bus;
+				},x);
+		return resultados;
+	}
+	public List<EntradasImg> consultaPruebaNoRecImagen(int x){
+		String sql = "SELECT IMAGEN64 FROM CASETAS.registro_entradas_no_reconocidas where CVE_ENTRADA_NO_RECONOCIDA= ? ";
+		List<EntradasImg> resultados = jdbcTemplate.query(sql,
+				(rs, rowNum) -> {
+					EntradasImg bus = new EntradasImg();
+					bus.setImagen64(rs.getBytes("imagen64"));
+					return bus;
+				},x);
 		return resultados;
 	}
 	
