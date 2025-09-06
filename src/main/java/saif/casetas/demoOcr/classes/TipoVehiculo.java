@@ -3,9 +3,9 @@ package saif.casetas.demoOcr.classes;
 import java.time.LocalDateTime;
 
 public class TipoVehiculo {
-	int cve_vehiculo, estatus;
-	String descripcion;
-	LocalDateTime fecha_registro;
+	private int cve_vehiculo, estatus;
+	private String descripcion;
+	private LocalDateTime fecha_registro;
 	
 	public int getCve_Vehiculo() {
 		return this.cve_vehiculo;

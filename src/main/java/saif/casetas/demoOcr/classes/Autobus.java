@@ -3,10 +3,9 @@ package saif.casetas.demoOcr.classes;
 import java.time.LocalDateTime;
 
 public class Autobus {
-	int cve_autobus, status, anio;
-	String matricula, numero_economico, color, marca, modelo;
-	LocalDateTime fecha_registro;
-	MarcaEconomica marca_economica;
+	private int cve_autobus, status, anio;
+	private String matricula, numero_economico, color, marca, modelo, fecha_registro;
+	private MarcaEconomica marca_economica;
 
 	
 	public MarcaEconomica getMarca_economica() {
@@ -63,12 +62,13 @@ public class Autobus {
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
-	public LocalDateTime getFecha_registro() {
+	public String getFecha_registro() {
 		return fecha_registro;
 	}
-	public void setFecha_registro(LocalDateTime fecha_registro) {
+	public void setFecha_registro(String fecha_registro) {
 		this.fecha_registro = fecha_registro;
 	}
+	
 	
 	
 }

@@ -1,14 +1,12 @@
 package saif.casetas.demoOcr.classes;
 
-import java.time.LocalDateTime;
 
 public class Entradas {
-	int cve_entrada, estatus, tipo_de_deteccion;
-	LocalDateTime fecha_hora;
-	TipoVehiculo tipo_vehiculo;
-	byte[] imagen64;
-	Autobus autobus;
-	String placa_detectada, numero_economico_detectado, marca_economica_detectada;
+	private int cve_entrada, estatus, tipo_de_deteccion;
+	private String placa_detectada, numero_economico_detectado, marca_economica_detectada, fecha_hora;
+	private TipoVehiculo tipo_vehiculo;
+	private byte[] imagen64;
+	private Autobus autobus;
 	
 	public int getCve_entrada() {
 		return cve_entrada;
@@ -27,12 +25,6 @@ public class Entradas {
 	}
 	public void setTipo_de_deteccion(int tipo_de_deteccion) {
 		this.tipo_de_deteccion = tipo_de_deteccion;
-	}
-	public LocalDateTime getFecha_hora() {
-		return fecha_hora;
-	}
-	public void setFecha_hora(LocalDateTime fecha_hora) {
-		this.fecha_hora = fecha_hora;
 	}
 	public TipoVehiculo getTipo_vehiculo() {
 		return tipo_vehiculo;
@@ -69,6 +61,12 @@ public class Entradas {
 	}
 	public void setMarca_economica_detectada(String marca_economica_detectada) {
 		this.marca_economica_detectada = marca_economica_detectada;
+	}
+	public String getFecha_hora() {
+		return fecha_hora;
+	}
+	public void setFecha_hora(String fecha_hora) {
+		this.fecha_hora = fecha_hora;
 	}
 	
 	

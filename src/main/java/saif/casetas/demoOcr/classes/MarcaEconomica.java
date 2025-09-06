@@ -1,8 +1,8 @@
 package saif.casetas.demoOcr.classes;
 
 public class MarcaEconomica {
-	int cve_me, status;
-	String me_name;
+	private int cve_me, status;
+	private String me_name;
 	
 	public MarcaEconomica() {
 		// TODO Auto-generated constructor stub
