@@ -17,7 +17,7 @@ public class ConsultasService {
 	}
 	
 	public List<Autobus> consultaPruebaAutobuses(){
-		String sql = "SELECT * FROM C##CASETAS.AUTOBUSES";
+		String sql = "SELECT * FROM C##CASETAS.AUTOBUS";
 		List<Autobus> resultados = jdbcTemplate.query(sql,
                 (rs, rowNum) -> {
                 	Autobus bus = new Autobus();
