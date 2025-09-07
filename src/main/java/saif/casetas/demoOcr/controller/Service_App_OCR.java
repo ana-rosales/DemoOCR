@@ -17,6 +17,7 @@ import saif.casetas.demoOcr.classes.dto.BusEntradaTipoME_DTO;
 import saif.casetas.demoOcr.classes.dto.NoReconocidas_DTO;
 import saif.casetas.demoOcr.consultas.ConsultasService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/")
 public class Service_App_OCR {
@@ -61,7 +62,7 @@ public class Service_App_OCR {
 		}
 	}
 	
-	@GetMapping("insert-cambio-entrada")
+	@PostMapping("insert-cambio-entrada")
 	public ResponseEntity<String> insertarRegistroEntrada_CTRL(
 			@RequestBody CambioNoReconocidoBody cambioNoReconocidoBody){
 		
